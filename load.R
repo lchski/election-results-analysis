@@ -29,3 +29,13 @@ election_results <- read_xlsx(
   group_by(date, constituency) %>%
   mutate(votes_prop = votes / sum(votes)) %>%
   ungroup()
+
+
+by_election <- election_results %>%
+  group_by(date, constituency, parliament, election_type) %>%
+  summarize(
+    total_candidates = n(),
+    total_votes = sum(votes),
+    winner_votes = max(votes),
+    winner_votes_prop = max(votes) / total_votes
+  )
